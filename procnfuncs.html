@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+
+
+        <table class="differences-table">
+            <tr>
+                <td>+</td>
+                <th>Procedures</th>
+                <th>Functions</th>
+            </tr>
+            <tr>
+                <th>Purpose</th>
+                <td>Organizing SQL queries and logic</td>
+                <td>Calculations, data manipulation</td>
+            </tr>
+            <tr>
+                <th>Parameters</th>
+                <td>
+                    Input, Output and In-Out parameters supported
+                </td>
+                <td>
+                    Only input parameters supported
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Execution
+                </th>
+                <td>
+                    Compiled once and called any no. of times
+                </td>
+                <td>
+                    Compiled each time they are called
+                </td>
+            </tr>
+            <tr>
+                <th>DQL</th>
+                <td>
+                    Procedures cannot be embedded in DQL
+                </td>
+                <td>
+                    Functions can be used in DQL statements
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Calling
+                </th>
+                <td>
+                    Procedures cannot be called from Functions.
+                </td>
+                <td>
+                    Functions can be called from functions
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Exception handling
+                </th>
+                <td>
+                    Uses try-catch blocks to handle exceptions
+                </td>
+                <td>
+                    Cannot do exception handling
+                </td>
+            </tr>
+
+        </table>
+    </main>
+</body>
+
+</html>
