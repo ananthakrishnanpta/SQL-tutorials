@@ -4,27 +4,27 @@
     box-sizing: border-box;
 }
 
-hmtl {
-    max-width: 800px;
-    margin: auto;
-}
-
 
 body {
-
-    table.differences-table {
-         td, th{
-            border: 1px solid black;
-            padding: 4px;
-         }
-         th {
-            background-color: rgb(252, 237, 219);
-         }
-         td {
-            background-color: rgb(234, 255, 237);
-            text-align: center;
-         }
-
-        
+    main {
+        max-width: 800px;
+        margin: auto;
+        table.differences-table {
+            margin: 10px;
+            td, th{
+               border: 1px solid black;
+               padding: 4px;
+            }
+            th {
+               background-color: rgb(252, 237, 219);
+            }
+            td {
+               background-color: rgb(234, 255, 237);
+               text-align: center;
+            }
+   
+           
+       }
     }
+    
 }
