@@ -97,7 +97,7 @@
             <section id="differences">
                 <header>
                     <h2>
-                        Procedures and Functions : Differences 
+                        Procedures and Functions : Differences
                     </h2>
                 </header>
                 <table class="differences-table">
@@ -165,6 +165,82 @@
 
                 </table>
 
+            </section>
+            <section>
+                    <div class="code">
+                        <pre>
+                      -- MySQL functions examples;
+                      -- Example 1;
+                      DELIMITER // -- CHANGES THE DEFAULT DELIMITER
+                      CREATE FUNCTION factorial(n INT) -- creates a function with one parameter n of INT datatype
+                      RETURNS INT    -- states that the function returns an int value;
+                      DETERMINISTIC  -- this keyword declares that the function produces a deterministic result
+                      BEGIN          -- function body begins
+                          DECLARE result INT DEFAULT 1; -- declares an INT var result and sets initial value to 1
+                          WHILE n > 1 DO                -- starting a while loop with condition n > 1
+                              SET result = result * n;  -- updating the value of result 
+                              SET n = n - 1;            -- updating the value of n using SET keyword
+                          END WHILE;                    -- END of WHILE loop
+                          RETURN result;                -- Returns result variable outside
+                      END//          -- function body ends
+                      DELIMITER ;    -- setting delimiter back to ';'
+                      
+                      SELECT factorial(10);  -- calling the function with argument of INT datatype as declared.
+                      
+                      --  Example 2;
+                      
+                      DELIMITER //
+                      CREATE FUNCTION stars(n INT)
+                      RETURNS VARCHAR(800) 
+                      DETERMINISTIC
+                      BEGIN
+                          DECLARE pattern VARCHAR(800) DEFAULT ''; -- empty varchar variable for storing pattern
+                          DECLARE row_i INT DEFAULT 1;             -- counter for each row of stars
+                          DECLARE col_j INT;                       -- counter for each stars in a row
+                          WHILE row_i < n DO                       -- this while loop runs for n number of times to create all rows
+                              SET col_j = 1;                       -- initializing col_j value to 1
+                              WHILE col_j <= row_i DO              -- this while loop must run row_i number of times to concatenate that much stars into result
+                                  SET pattern = CONCAT(pattern, "*"); -- adding '*' symbol to the pattern
+                                  SET col_j = col_j + 1;           -- incrementing the col_j variable to go to the next star in the same row
+                              END WHILE;                           -- end of while loop creating individual rows
+                              SET pattern = CONCAT(pattern, "\n"); -- adding new-line character '\n' to create new row inside the varchar
+                              SET row_i = row_i + 1;               -- incrementing the row_i variable to start working on next row of stars
+                          END WHILE;                               -- end of while loop creating the pattern
+                          RETURN pattern;                          -- returns the created pattern
+                      END //
+                      DELIMITER ;
+                      
+                      SELECT stars(5);
+                      
+                      DELIMITER //
+                      CREATE FUNCTION fibonacci_series(n INT)
+                      RETURNS VARCHAR(1000)
+                      DETERMINISTIC
+                      BEGIN
+                          DECLARE a INT DEFAULT 0;                   -- First Fibonacci number
+                          DECLARE b INT DEFAULT 1;                   -- Second Fibonacci number
+                          DECLARE fib VARCHAR(1000) DEFAULT '';      -- String to store Fibonacci series
+                          DECLARE temp INT;                          -- Temporary variable for swapping
+                          DECLARE i INT DEFAULT 1;                   -- Counter for loop
+                          IF n = 1 THEN
+                              RETURN '0';                            -- If only 1 number is needed, return '0'
+                          ELSEIF n = 2 THEN
+                              RETURN '0, 1';                         -- If 2 numbers are needed, return '0, 1'
+                          END IF;
+                          SET fib = CONCAT(a, ', ', b);              -- Initialize string with '0, 1'
+                          WHILE i <= n - 2 DO                        -- Loop to generate remaining numbers
+                              SET temp = b;
+                              SET b = a + b;                         -- Compute the next Fibonacci number
+                              SET a = temp;
+                              SET fib = CONCAT(fib, ', ', b);        -- Append the new number to the series
+                              SET i = i + 1;
+                          END WHILE;
+                          
+                          RETURN fib;                                -- Return the Fibonacci series as a string
+                      END//
+                      DELIMITER ;
+                        </pre>
+                </div>
             </section>
         </div>
     </main>

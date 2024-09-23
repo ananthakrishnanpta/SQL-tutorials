@@ -30,3 +30,11 @@ body {
     }
     
 }
+
+
+.code {
+    color: rgb(122, 5, 5);
+    background-color: antiquewhite;
+    width: 100%;
+    margin: auto;
+}
