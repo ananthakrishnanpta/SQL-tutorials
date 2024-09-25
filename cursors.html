@@ -64,7 +64,85 @@
             <p>Cursor is a construct in Database which helps to iterate over records returned by a DQL
                 so that a stored program can iterate over it and perform operations.
                 <br>
-                In <strong>MySQL</strong>, 
+                In <strong>MySQL</strong>, cursors allow you to iterate over rows of a result set one at a time. Cursors are useful when you need to process individual rows from a SELECT query.
+
+                To start off let's create a sample database and table
+
+                <pre>
+                    <code class="language-sql">
+                    create database company;
+                    
+                    CREATE TABLE employees (
+                        employee_id INT AUTO_INCREMENT PRIMARY KEY,
+                        employee_name VARCHAR(255) NOT NULL,
+                        department VARCHAR(100));
+                        
+                        INSERT INTO employees (employee_name, department)
+                        VALUES
+                        ('John Doe', 'HR'),
+                        ('Jane Smith', 'Finance'),
+                        ('Robert Brown', 'IT'),
+                        ('Emily Davis', 'Sales'),
+                        ('Michael Johnson', 'Marketing'),
+                        ('Anna Williams', 'HR'),
+                        ('David Wilson', 'Finance'),
+                        ('Sarah Miller', 'IT'),
+                        ('James Taylor', 'Sales'),
+                        ('Patricia Harris', 'Marketing');
+                    </code>
+                </pre>
+                <pre>
+                    <code class="language-sql">
+
+                    -- Cursor to Fetch Employees from a Specific Department ;
+                    DELIMITER $$
+                    
+                    CREATE PROCEDURE get_employees_by_department(IN dept_name VARCHAR(100))
+                    BEGIN
+                        DECLARE emp_id INT;
+                        DECLARE emp_name VARCHAR(255);
+                        DECLARE done BOOLEAN DEFAULT FALSE;
+                        
+                        -- Declare cursor for selecting employees from a specific department
+                        DECLARE emp_cursor CURSOR FOR 
+                            SELECT employee_id, employee_name FROM employees WHERE department = dept_name;
+                        
+                        -- Handler for when the cursor reaches the end of the result set
+                        DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+                        
+                        -- Open the cursor
+                        OPEN emp_cursor;
+                        
+                        -- Loop through the result set
+                        read_loop: LOOP
+                            FETCH emp_cursor INTO emp_id, emp_name;
+                            
+                            -- Exit the loop when no more rows are found
+                            IF done THEN
+                                LEAVE read_loop;
+                            END IF;
+                            
+                            -- Output employee details (you can modify this to perform other actions)
+                            SELECT emp_id, emp_name;
+                        END LOOP;
+                        
+                        -- Close the cursor
+                        CLOSE emp_cursor;
+                    END$$
+                    
+                    DELIMITER ;
+                    </code>
+                </pre>
+
+                Here,
+
+                <ol>
+                    <li><b>Cursor Declaration:</b> A cursor (emp_cursor) is declared for a SELECT query.</li>
+                    <li><b>Handler for NOT FOUND:</b> A handler is used to set a flag (done) when there are no more rows to fetch.</li>
+                    <li><b>Loop:</b> The cursor is opened and iterated over using a loop that fetches rows one by one.</li>
+                    <li><b>Process Data:</b> Inside the loop, you can perform operations on the fetched data.</li>
+                    <li><b>Exit:</b> The loop exits when there are no more rows, and the cursor is closed.</li>
+                </ol>
             </p>
         </article>
 
@@ -78,6 +156,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <script src="scripts.js"></script>
 </body>
 
 </html>
