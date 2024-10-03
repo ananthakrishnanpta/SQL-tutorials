@@ -76,6 +76,72 @@ ON table_name
 </pre>
 
         </section>
+
+        <section>
+            <h4>Let's see an example of triggers</h4>
+            <pre>
+                <code class="language-sql">
+CREATE DATABASE sales;
+USE sales;       
+                </code>
+            </pre>
+            <h3>Let's create the tables </h3>
+            <pre>
+                <code class="language-sql">
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL);
+
+CREATE TABLE sales (
+    sale_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    quantity INT NOT NULL,
+    sale_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    );
+    
+                </code>
+            </pre>
+            <pre>
+                <code class="language-sql">
+INSERT INTO products (product_name, price, stock) 
+    VALUES 
+    ('Laptop', 1000.00, 50),
+    ('Smartphone', 500.00, 100),
+    ('Headphones', 50.00, 200);      
+                </code>
+            </pre>
+            <h3>The trigger will automatically reduce the stock in the products table when a new sale is added to the
+                sales table.</h3>
+            <pre>
+                <code class="language-sql">
+DELIMITER //
+
+CREATE TRIGGER update_stock_after_sale
+    AFTER INSERT ON sales
+        FOR EACH ROW
+            BEGIN
+                UPDATE products
+                SET stock = stock - NEW.quantity
+                WHERE product_id = NEW.product_id;
+            END//
+                    
+DELIMITER ;           
+                </code>
+            </pre>
+            <h3>Now insert a record into sales</h3>
+            <pre>
+                <code class="language-sql">
+INSERT INTO sales (product_id, quantity) VALUES (1, 2);
+SELECT * FROM products;
+       
+                </code>
+            </pre>
+            
+
+        </section>
     </main>
     <footer>
 
