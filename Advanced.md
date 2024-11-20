@@ -119,6 +119,19 @@ END;
 ```
 
 ### Example: Audit salary updates  
+
+```sql
+-- Create AuditLog Table
+CREATE TABLE AuditLog (
+    audit_id INT PRIMARY KEY AUTO_INCREMENT,
+    emp_id INT NOT NULL,
+    old_salary DECIMAL(10, 2),
+    new_salary DECIMAL(10, 2),
+    change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
+);
+```
+
 ```sql
 DELIMITER //
 CREATE TRIGGER AuditSalaryUpdate
