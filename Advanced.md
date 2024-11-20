@@ -51,10 +51,12 @@ Precompiled SQL statements used to encapsulate logic.
 
 ### Syntax:  
 ```sql
-CREATE PROCEDURE proc_name(parameters)
-BEGIN
+DELIMITER //                           --Changes the delimiter of sql to '//' instead of ';'
+CREATE PROCEDURE proc_name(parameters) --Declares the procedure
+BEGIN                                  --Begins procedure definition
     SQL statements;
-END;
+END//                                  --End of procedure definition
+DELIMITER ;                            --Changes the delimited back to ';'
 ```
 
 ### Example: Calculate average salary by department  
