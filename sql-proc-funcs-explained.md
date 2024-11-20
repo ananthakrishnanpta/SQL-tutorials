@@ -27,10 +27,12 @@ A stored procedure is a precompiled SQL code that you can store and reuse. It al
 
 ### **Syntax**
 ```sql
+DELIMITER //
 CREATE PROCEDURE procedure_name ([IN | OUT | INOUT] parameter_name datatype, ...)
 BEGIN
     -- SQL statements
 END;
+DELIMITER ;
 ```
 
 ---
