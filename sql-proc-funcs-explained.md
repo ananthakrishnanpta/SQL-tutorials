@@ -38,6 +38,9 @@ DELIMITER ;
 ---
 
 ### **Example: Procedure to Retrieve Department-Wise Average Salary**
+- The procedure GetAvgSalaryByDept calculates the average salary for each department.
+- It groups the Salaries table by dept_id and computes the average salary using the AVG() function.
+
 ```sql
 DELIMITER //
 CREATE PROCEDURE GetAvgSalaryByDept()
@@ -50,6 +53,11 @@ BEGIN
 END //
 DELIMITER ;
 ```
+## To call the procedure
+
+```sql
+CALL GetAvgSalaryByDept();
+```
 
 #### **Explanation of Example**
 - **Input**: None (parameters can be added if needed).
@@ -59,6 +67,73 @@ DELIMITER ;
 #### **Calling the Procedure**
 ```sql
 CALL GetAvgSalaryByDept();
+```
+
+### Example with IN parameter
+- This procedure calculates the average salary for a specific department based on the dept_id passed as an input parameter.
+
+```sql
+DELIMITER //
+CREATE PROCEDURE GetAvgSalaryByDeptIN(
+    IN input_dept_id INT
+)
+BEGIN
+    SELECT dept_id, AVG(salary) AS avg_salary
+    FROM salaries s
+    JOIN employees e ON s.emp_id = e.emp_id
+    WHERE e.dept_id = input_dept_id
+    GROUP BY dept_id;
+END //
+DELIMITER ;
+```
+## To call the procedure
+
+```sql
+CALL GetAvgSalaryByDeptIN(1); -- Replace 1 with the desired department ID.
+```
+### Example with OUT parameter
+- This procedure returns the average salary for all departments combined, using an output parameter.
+  
+```sql
+DELIMITER //
+CREATE PROCEDURE GetAvgSalaryByDeptOUT(
+    OUT overall_avg_salary FLOAT
+)
+BEGIN
+    SELECT AVG(salary) INTO overall_avg_salary
+    FROM salaries;
+END //
+DELIMITER ;
+```
+## To call the procedure
+
+```sql
+CALL GetAvgSalaryByDeptOUT(@avg_salary);
+SELECT @avg_salary; -- Retrieve the output parameter value.
+```
+
+### Example with IN and OUT Parameters
+- This procedure calculates and returns the average salary for a specific department based on the dept_id passed as an input parameter.
+
+```sql
+DELIMITER //
+CREATE PROCEDURE GetAvgSalaryByDeptINOUT(
+    IN input_dept_id INT,
+    OUT avg_salary FLOAT
+)
+BEGIN
+    SELECT AVG(salary) INTO avg_salary
+    FROM salaries s
+    JOIN employees e ON s.emp_id = e.emp_id
+    WHERE e.dept_id = input_dept_id;
+END //
+DELIMITER ;
+```
+## To call the procedure
+
+```sql
+CALL GetAvgSalaryByDeptINOUT(1, @avg_salary); -- Replace 1 with the desired department ID.
+SELECT @avg_salary; -- Retrieve the output parameter value.
 ```
 
 ---
