@@ -53,11 +53,6 @@ BEGIN
 END //
 DELIMITER ;
 ```
-## To call the procedure
-
-```sql
-CALL GetAvgSalaryByDept();
-```
 
 #### **Explanation of Example**
 - **Input**: None (parameters can be added if needed).
