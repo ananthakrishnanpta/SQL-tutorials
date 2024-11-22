@@ -82,7 +82,9 @@ WHERE condition;
 ---
 
 ### **Important**:  
-When updating all rows without a `WHERE` clause, MySQL Workbench has **safe updates mode** enabled by default. To perform such updates:
+In MySQL workbench, when multiple records are affected by *UPDATE* or *DELETE* command, if *safe updates mode* is turned **on** (it is on by default), it will prevent the query from running to prevent accidental changes to records.
+Hence, when running these commands without a where clause (filtering), it doesn't execute.
+After ensuring that the query you are writing is accurate, we can temporarily turn off this feature 
 1. **Turn Off Safe Updates**:
    ```sql
    SET SQL_SAFE_UPDATES = 0;
