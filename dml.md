@@ -145,7 +145,7 @@ WHERE id = 2;
 ## 3. **DELETE Command**
 
 ### **Definition**:
-The `DELETE` command removes records from a table.
+The `DELETE` command removes records from a table. Please note that it cannot be used to remove a single column value from a record. For that we can use `UPDATE` command and set that column value to null.
 
 ### **Syntax**:
 ```sql
