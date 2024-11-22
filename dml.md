@@ -89,7 +89,7 @@ After ensuring that the query you are writing is accurate, we can temporarily tu
    ```sql
    SET SQL_SAFE_UPDATES = 0;
    ```
-2. **Run the Update Command**.
+2. **Run the Update or Delete Command**.
 3. **Re-enable Safe Updates**:
    ```sql
    SET SQL_SAFE_UPDATES = 1;
