@@ -163,8 +163,11 @@ END;
 ### **Example: Function to Calculate Total Salary of an Employee**
 ```sql
 DELIMITER //
+
 CREATE FUNCTION GetTotalSalary(emp_id INT)
 RETURNS DECIMAL(10, 2)
+    NOT DETERMINISTIC
+    READS SQL DATA
 BEGIN
     DECLARE total_salary DECIMAL(10, 2);
     SELECT SUM(salary) INTO total_salary
@@ -172,13 +175,18 @@ BEGIN
     WHERE emp_id = emp_id;
     RETURN total_salary;
 END //
+
 DELIMITER ;
+
 ```
 
 #### **Explanation of Example**
 - **Input**: Employee ID (`emp_id`).
 - **Output**: The total salary earned by the employee.
 - **`DECLARE`** is used to create a variable to store the calculated salary.
+- **NOT DETERMINISTIC**: This ensures that MySQL understands that the function might return different results when the data changes, which is the case with the `SUM` query.
+- **READS SQL DATA**: This specifies that the function only reads data from the database but does not modify it.
+- **The `WHERE emp_id = emp_id` clause**: The condition should work as intended, but if there are any issues with shadowing the parameter, you can rename the parameter or use `WHERE emp_id = emp_id` explicitly.
 
 #### **Calling the Function**
 ```sql
