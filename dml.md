@@ -142,10 +142,6 @@ WHERE id = 2;
 
 ---
 #### **Updating with different values depending on conditions**
-Here’s a **Markdown tutorial** specifically focused on using the `UPDATE` command with the `CASE` statement in MySQL. This includes detailed syntax, examples, and explanations.
-
----
-
 ## **Using `UPDATE` with `CASE` in MySQL**
 
 ---
