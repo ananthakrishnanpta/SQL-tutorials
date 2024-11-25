@@ -141,6 +141,153 @@ WHERE id = 2;
 ```
 
 ---
+#### **Updating with different values depending on conditions**
+Here’s a **Markdown tutorial** specifically focused on using the `UPDATE` command with the `CASE` statement in MySQL. This includes detailed syntax, examples, and explanations.
+
+---
+
+## **Using `UPDATE` with `CASE` in MySQL**
+
+---
+
+### 1. **What is `CASE` in MySQL?**
+
+The `CASE` statement in MySQL is a conditional construct that works like an **if-else** block. It is often used in `UPDATE` queries to apply different updates to rows based on specific conditions.
+
+#### **Syntax of `CASE` in `UPDATE`**:
+```sql
+UPDATE table_name
+SET column_name = 
+  CASE 
+    WHEN condition1 THEN value1
+    WHEN condition2 THEN value2
+    ...
+    ELSE default_value
+  END
+WHERE condition;
+```
+
+---
+
+### 2. **How Does It Work in `UPDATE`?**
+
+- The `CASE` statement evaluates conditions row-by-row.
+- Based on which `WHEN` condition is true, it sets the value of the column.
+- If no conditions match, the `ELSE` block provides a default value.
+- The `WHERE` clause (optional) restricts which rows are updated.
+
+---
+
+### 3. **Examples of `UPDATE` with `CASE`**
+
+#### **Example 1: Updating a Salary Based on Job Role**
+**Description**: Increase the salary of employees based on their roles:
+- Managers get a 10% increase.
+- Developers get a 15% increase.
+- Interns get a fixed salary of 20000.
+
+```sql
+UPDATE employees
+SET salary = 
+  CASE 
+    WHEN role = 'Manager' THEN salary * 1.10
+    WHEN role = 'Developer' THEN salary * 1.15
+    WHEN role = 'Intern' THEN 20000
+    ELSE salary
+  END;
+```
+
+---
+
+#### **Example 2: Updating Grades Based on Marks**
+**Description**: Assign grades to students based on their marks:
+- Marks >= 90: Grade = 'A'.
+- Marks >= 75 and < 90: Grade = 'B'.
+- Marks >= 50 and < 75: Grade = 'C'.
+- Marks < 50: Grade = 'F'.
+
+```sql
+UPDATE students
+SET grade = 
+  CASE 
+    WHEN marks >= 90 THEN 'A'
+    WHEN marks >= 75 THEN 'B'
+    WHEN marks >= 50 THEN 'C'
+    ELSE 'F'
+  END;
+```
+
+---
+
+#### **Example 3: Conditional Updates with a `WHERE` Clause**
+**Description**: Update employee bonuses only for those in the `Sales` department, based on performance:
+- High performance: Bonus = 20% of salary.
+- Medium performance: Bonus = 10% of salary.
+- Low performance: Bonus = 5% of salary.
+
+```sql
+UPDATE employees
+SET bonus = 
+  CASE 
+    WHEN performance = 'High' THEN salary * 0.20
+    WHEN performance = 'Medium' THEN salary * 0.10
+    WHEN performance = 'Low' THEN salary * 0.05
+    ELSE 0
+  END
+WHERE department = 'Sales';
+```
+
+---
+
+#### **Example 4: Using `CASE` with Multiple Columns**
+**Description**: Update both `bonus` and `salary` based on an employee's performance:
+- High performance: 20% bonus, 10% salary increase.
+- Medium performance: 10% bonus, 5% salary increase.
+- Low performance: 5% bonus, no salary increase.
+
+```sql
+UPDATE employees
+SET 
+  bonus = CASE 
+            WHEN performance = 'High' THEN salary * 0.20
+            WHEN performance = 'Medium' THEN salary * 0.10
+            WHEN performance = 'Low' THEN salary * 0.05
+            ELSE 0
+          END,
+  salary = CASE 
+             WHEN performance = 'High' THEN salary * 1.10
+             WHEN performance = 'Medium' THEN salary * 1.05
+             ELSE salary
+           END;
+```
+
+---
+
+#### 4. **Advantages of Using `CASE` in `UPDATE`**
+
+1. **Efficiency**: Allows conditional updates in a single query instead of multiple queries.  
+2. **Clarity**: Makes complex updates easier to understand.  
+3. **Flexibility**: Can handle multiple conditions and update multiple columns simultaneously.
+
+---
+
+#### 5. **Best Practices**
+
+1. **Test Conditions**: Ensure your `CASE` conditions cover all scenarios to avoid unintended results.
+2. **Use the `ELSE` Block**: Always include an `ELSE` block to handle rows that don’t match any condition.
+3. **Restrict Rows with `WHERE`**: Use a `WHERE` clause to limit updates to relevant rows.
+4. **Back Up Your Data**: Before running complex updates, back up the table to prevent accidental data loss.
+
+---
+
+#### 6. **Common Mistakes to Avoid**
+
+1. **Missing `ELSE`**: If a row doesn’t match any `WHEN` condition and no `ELSE` is provided, the column value becomes `NULL`.  
+2. **Not Using a `WHERE` Clause**: Updating all rows unintentionally can lead to data corruption.  
+3. **Overcomplicated Conditions**: Break down complex `CASE` logic into simpler statements if possible for better readability.
+
+
+---
 
 ## 3. **DELETE Command**
 
