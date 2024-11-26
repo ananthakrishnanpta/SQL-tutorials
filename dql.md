@@ -111,16 +111,148 @@ SQL functions are grouped into the following categories:
 ---
 
 ### **4.1 Aggregate Functions**
+Aggregate functions in MySQL are used to perform calculations on a set of values, returning a single result.
 
-Aggregate functions perform calculations on a set of values and return a single value.
+| **Function**         | **Syntax**                                                               | **Description**                                                 | **Example**                                   |
+|----------------------|-------------------------------------------------------------------------|---------------------------------------------------------------|-----------------------------------------------|
+| `COUNT`              | `COUNT([DISTINCT] expression)`                                          | Returns the number of rows matching a specified condition.     | `SELECT COUNT(*) FROM employees;` (returns the number of employees)|
+| `SUM`                | `SUM(expression)`                                                       | Returns the sum of all values in a numeric column.             | `SELECT SUM(salary) FROM employees;` (returns the total salary)|
+| `AVG`                | `AVG(expression)`                                                       | Returns the average of all values in a numeric column.         | `SELECT AVG(salary) FROM employees;` (returns the average salary)|
+| `MIN`                | `MIN(expression)`                                                       | Returns the smallest value in a specified column.              | `SELECT MIN(salary) FROM employees;` (returns the minimum salary)|
+| `MAX`                | `MAX(expression)`                                                       | Returns the largest value in a specified column.               | `SELECT MAX(salary) FROM employees;` (returns the maximum salary)|
+| `GROUP_CONCAT`       | `GROUP_CONCAT(expression [ORDER BY ...] [LIMIT ...])`                   | Returns a concatenated string of values from a group.           | `SELECT GROUP_CONCAT(department) FROM employees GROUP BY department;` |
+| `STDDEV`             | `STDDEV(expression)`                                                    | Returns the standard deviation of the values in a column.      | `SELECT STDDEV(salary) FROM employees;` (returns standard deviation)|
+| `VARIANCE`           | `VARIANCE(expression)`                                                  | Returns the variance of the values in a column.                | `SELECT VARIANCE(salary) FROM employees;` (returns variance)|
+| `BIT_AND`            | `BIT_AND(expression)`                                                   | Returns the bitwise AND of all values in a column.             | `SELECT BIT_AND(salary) FROM employees;` |
+| `BIT_OR`             | `BIT_OR(expression)`                                                    | Returns the bitwise OR of all values in a column.              | `SELECT BIT_OR(salary) FROM employees;` |
+| `BIT_XOR`            | `BIT_XOR(expression)`                                                   | Returns the bitwise XOR of all values in a column.             | `SELECT BIT_XOR(salary) FROM employees;` |
 
-| **Function**  | **Description**                     | **Example**                          |
-|---------------|-------------------------------------|--------------------------------------|
-| `COUNT()`     | Counts the number of rows          | `SELECT COUNT(*) FROM employees;`    |
-| `SUM()`       | Calculates the sum of a column     | `SELECT SUM(salary) FROM employees;` |
-| `AVG()`       | Calculates the average value       | `SELECT AVG(salary) FROM employees;` |
-| `MIN()`       | Finds the minimum value            | `SELECT MIN(salary) FROM employees;` |
-| `MAX()`       | Finds the maximum value            | `SELECT MAX(salary) FROM employees;` |
+---
+
+### **Explanation of Some Key Functions**
+
+1. **`COUNT`**: The `COUNT` function counts the number of rows that match the specified condition. It can also count the number of distinct values.
+
+   - **Syntax**: 
+     ```sql
+     SELECT COUNT(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT COUNT(*) FROM employees;  -- Counts the total number of employees.
+     SELECT COUNT(DISTINCT department) FROM employees;  -- Counts the distinct number of departments.
+     ```
+
+2. **`SUM`**: The `SUM` function returns the total sum of the values in a numeric column.
+
+   - **Syntax**: 
+     ```sql
+     SELECT SUM(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT SUM(salary) FROM employees;  -- Returns the total salary of all employees.
+     ```
+
+3. **`AVG`**: The `AVG` function returns the average of the values in a numeric column.
+
+   - **Syntax**: 
+     ```sql
+     SELECT AVG(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT AVG(salary) FROM employees;  -- Returns the average salary of all employees.
+     ```
+
+4. **`MIN`**: The `MIN` function returns the smallest value in a specified column.
+
+   - **Syntax**: 
+     ```sql
+     SELECT MIN(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT MIN(salary) FROM employees;  -- Returns the minimum salary from all employees.
+     ```
+
+5. **`MAX`**: The `MAX` function returns the largest value in a specified column.
+
+   - **Syntax**: 
+     ```sql
+     SELECT MAX(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT MAX(salary) FROM employees;  -- Returns the maximum salary from all employees.
+     ```
+
+6. **`GROUP_CONCAT`**: The `GROUP_CONCAT` function concatenates the values from a group of rows into a single string. It can be used with the `ORDER BY` and `LIMIT` clauses.
+
+   - **Syntax**:
+     ```sql
+     SELECT GROUP_CONCAT(expression [ORDER BY expression] [LIMIT ...]) FROM table GROUP BY column;
+     ```
+   - **Example**:
+     ```sql
+     SELECT GROUP_CONCAT(department) FROM employees GROUP BY department;  -- Concatenates all departments.
+     SELECT GROUP_CONCAT(department ORDER BY department ASC) FROM employees GROUP BY department;  -- Concatenates and orders departments alphabetically.
+     ```
+
+7. **`STDDEV`**: The `STDDEV` function returns the standard deviation of the values in a numeric column. It is used to measure the variation of data points in a dataset.
+
+   - **Syntax**:
+     ```sql
+     SELECT STDDEV(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT STDDEV(salary) FROM employees;  -- Returns the standard deviation of salaries.
+     ```
+
+8. **`VARIANCE`**: The `VARIANCE` function returns the variance of the values in a numeric column. Variance is the square of the standard deviation.
+
+   - **Syntax**:
+     ```sql
+     SELECT VARIANCE(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT VARIANCE(salary) FROM employees;  -- Returns the variance of salaries.
+     ```
+
+9. **`BIT_AND`**: The `BIT_AND` function performs a bitwise AND operation on all values in a column and returns the result.
+
+   - **Syntax**:
+     ```sql
+     SELECT BIT_AND(expression);
+     ```
+   - **Example**:
+     ```sql
+     SELECT BIT_AND(salary) FROM employees;  -- Returns the bitwise AND of all salary values.
+     ```
+
+10. **`BIT_OR`**: The `BIT_OR` function performs a bitwise OR operation on all values in a column and returns the result.
+
+    - **Syntax**:
+      ```sql
+      SELECT BIT_OR(expression);
+      ```
+    - **Example**:
+      ```sql
+      SELECT BIT_OR(salary) FROM employees;  -- Returns the bitwise OR of all salary values.
+      ```
+
+11. **`BIT_XOR`**: The `BIT_XOR` function performs a bitwise XOR operation on all values in a column and returns the result.
+
+    - **Syntax**:
+      ```sql
+      SELECT BIT_XOR(expression);
+      ```
+    - **Example**:
+      ```sql
+      SELECT BIT_XOR(salary) FROM employees;  -- Returns the bitwise XOR of all salary values.
+      ```
 
 ---
 
