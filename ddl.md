@@ -1,0 +1,281 @@
+---
+
+# **Data Definition Language (DDL) in MySQL**
+
+---
+
+## **1. What is DDL?**
+
+DDL (Data Definition Language) includes commands that define, modify, or remove the **structure** of database objects such as databases, tables, and constraints. These commands don't manipulate data but impact the schema itself.
+
+---
+
+## **2. Key DDL Commands**
+
+| **Command** | **Purpose**                                                                                     |
+|-------------|-------------------------------------------------------------------------------------------------|
+| `CREATE`    | Used to create databases, tables, indexes, or other objects.                                    |
+| `ALTER`     | Used to modify the structure of existing objects (e.g., tables, columns, constraints).          |
+| `DROP`      | Deletes entire databases, tables, or objects permanently.                                       |
+| `TRUNCATE`  | Deletes all rows from a table but retains its structure.                                        |
+| `RENAME`    | Renames a database, table, or column.                                                           |
+
+---
+
+## **3. Working with Databases**
+
+### **3.1 Create a Database**
+
+```sql
+-- Create a new database
+CREATE DATABASE employee_db;
+
+-- Switch to the new database
+USE employee_db;
+```
+
+**Explanation**:
+- `CREATE DATABASE` creates a new schema named `employee_db`.
+- `USE` switches to the database to execute queries.
+
+---
+
+### **3.2 Rename a Database**
+
+Renaming a database is not directly supported in MySQL but can be achieved by exporting and re-importing data. Example:
+
+1. Export the database:
+   ```bash
+   mysqldump -u username -p employee_db > employee_db.sql
+   ```
+2. Create a new database with the desired name and import:
+   ```bash
+   mysql -u username -p new_employee_db < employee_db.sql
+   ```
+
+---
+
+### **3.3 Drop a Database**
+
+```sql
+-- Drop the entire database permanently
+DROP DATABASE employee_db;
+```
+
+**Caution**: This deletes all tables and data in the database.
+
+---
+
+## **4. Working with Tables**
+
+### **4.1 Create a Table**
+
+Define the structure of the `employees` table:
+
+```sql
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,       -- Unique identifier
+    name VARCHAR(100) NOT NULL,              -- Employee name, cannot be NULL
+    department_id INT,                       -- Foreign key to department
+    salary DECIMAL(10, 2) NOT NULL,          -- Employee salary
+    date_of_joining DATE,                    -- Joining date
+    UNIQUE (name)                            -- Ensure names are unique
+);
+```
+
+**Key Points**:
+- `AUTO_INCREMENT`: Automatically increments values for primary keys.
+- `NOT NULL`: Ensures values cannot be NULL.
+- `UNIQUE`: Enforces unique values in a column.
+
+---
+
+### **4.2 Rename a Table**
+
+```sql
+-- Rename the table from 'employees' to 'staff'
+RENAME TABLE employees TO staff;
+```
+
+---
+
+### **4.3 Add a Column**
+
+```sql
+-- Add a 'bonus' column with a default value of 0
+ALTER TABLE employees ADD bonus DECIMAL(8, 2) DEFAULT 0;
+```
+
+---
+
+### **4.4 Rename a Column**
+
+```sql
+-- Rename 'bonus' column to 'performance_bonus'
+ALTER TABLE employees CHANGE bonus performance_bonus DECIMAL(8, 2);
+```
+
+---
+
+### **4.5 Modify a Column**
+
+```sql
+-- Change the data type of the 'salary' column
+ALTER TABLE employees MODIFY salary DECIMAL(12, 2);
+```
+
+---
+
+### **4.6 Drop a Column**
+
+```sql
+-- Remove the 'date_of_joining' column
+ALTER TABLE employees DROP COLUMN date_of_joining;
+```
+
+---
+
+### **4.7 Drop a Table**
+
+```sql
+-- Delete the 'employees' table permanently
+DROP TABLE employees;
+```
+
+---
+
+## **5. Constraints in MySQL**
+
+Constraints enforce rules on data in tables.
+
+### **5.1 Types of Constraints**
+
+| **Constraint**   | **Description**                                                                 |
+|-------------------|---------------------------------------------------------------------------------|
+| `PRIMARY KEY`     | Uniquely identifies each row.                                                  |
+| `FOREIGN KEY`     | Establishes a relationship with another table.                                 |
+| `UNIQUE`          | Ensures all values in a column are distinct.                                   |
+| `NOT NULL`        | Ensures a column cannot have NULL values.                                      |
+| `DEFAULT`         | Provides a default value for a column when none is specified.                 |
+| `CHECK`           | Ensures that all column values satisfy a condition (introduced in MySQL 8.0).  |
+
+---
+
+### **5.2 Adding Constraints**
+
+#### Adding a `PRIMARY KEY`:
+
+```sql
+ALTER TABLE employees ADD PRIMARY KEY (id);
+```
+
+#### Adding a `FOREIGN KEY`:
+
+```sql
+ALTER TABLE employees 
+ADD CONSTRAINT fk_department 
+FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL;
+```
+
+- **`ON DELETE SET NULL`**: Sets `department_id` to NULL if the referenced department is deleted.
+
+#### Adding a `UNIQUE` Constraint:
+
+```sql
+ALTER TABLE employees ADD CONSTRAINT unique_name UNIQUE (name);
+```
+
+#### Adding a `CHECK` Constraint (MySQL 8.0+):
+
+```sql
+ALTER TABLE employees ADD CONSTRAINT check_salary CHECK (salary > 0);
+```
+
+---
+
+### **5.3 Dropping Constraints**
+
+#### Dropping a `PRIMARY KEY`:
+
+```sql
+ALTER TABLE employees DROP PRIMARY KEY;
+```
+
+#### Dropping a `FOREIGN KEY`:
+
+```sql
+ALTER TABLE employees DROP FOREIGN KEY fk_department;
+```
+
+#### Dropping a `UNIQUE` Constraint:
+
+```sql
+ALTER TABLE employees DROP INDEX unique_name;
+```
+
+#### Dropping a `CHECK` Constraint:
+
+```sql
+ALTER TABLE employees DROP CONSTRAINT check_salary;
+```
+
+---
+
+## **6. Example: Full Table Lifecycle**
+
+### Step 1: Create the `departments` Table
+
+```sql
+CREATE TABLE departments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL UNIQUE
+);
+```
+
+### Step 2: Create the `employees` Table
+
+```sql
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    department_id INT,
+    salary DECIMAL(10, 2) NOT NULL,
+    date_of_joining DATE,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
+);
+```
+
+### Step 3: Add a `bonus` Column
+
+```sql
+ALTER TABLE employees ADD bonus DECIMAL(8, 2) DEFAULT 0;
+```
+
+### Step 4: Rename the `employees` Table
+
+```sql
+RENAME TABLE employees TO staff;
+```
+
+### Step 5: Drop the `bonus` Column
+
+```sql
+ALTER TABLE staff DROP COLUMN bonus;
+```
+
+### Step 6: Drop the `staff` Table
+
+```sql
+DROP TABLE staff;
+```
+
+---
+
+## **7. Best Practices**
+
+1. **Plan Schema**: Carefully design tables and constraints before implementation to avoid frequent alterations.
+2. **Backup Before Modifications**: Always back up data before altering or dropping tables/columns.
+3. **Use Descriptive Names**: Name constraints and columns clearly to simplify maintenance.
+4. **Avoid Redundancy**: Use constraints effectively to maintain data integrity without duplicating rules in application logic.
+
+---
