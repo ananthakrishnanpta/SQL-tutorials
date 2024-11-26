@@ -211,16 +211,103 @@ Date and time functions are used to manipulate date/time values.
 ---
 
 ### **4.4 Mathematical Functions**
+Mathematical functions in MySQL are used to perform calculations on numeric values.
 
-Mathematical functions perform calculations on numeric data.
+| **Function**        | **Syntax**                                                               | **Description**                                               | **Example**                              |
+|---------------------|-------------------------------------------------------------------------|---------------------------------------------------------------|------------------------------------------|
+| `ABS`               | `ABS(number)`                                                           | Returns the absolute value of a number.                       | `SELECT ABS(-10);` (returns 10)          |
+| `CEIL`              | `CEIL(number)`                                                          | Returns the smallest integer greater than or equal to the number. | `SELECT CEIL(4.2);` (returns 5)          |
+| `FLOOR`             | `FLOOR(number)`                                                         | Returns the largest integer less than or equal to the number.  | `SELECT FLOOR(4.8);` (returns 4)         |
+| `ROUND`             | `ROUND(number, decimals)`                                               | Rounds a number to the specified number of decimal places.    | `SELECT ROUND(4.5678, 2);` (returns 4.57)|
+| `POW`               | `POW(base, exponent)`                                                   | Returns the value of the base raised to the power of the exponent. | `SELECT POW(2, 3);` (returns 8)         |
+| `POWER`             | `POWER(base, exponent)`                                                 | Returns the value of the base raised to the power of the exponent. (Same as `POW`) | `SELECT POWER(2, 3);` (returns 8) |
+| `SQRT`              | `SQRT(number)`                                                          | Returns the square root of the number.                        | `SELECT SQRT(16);` (returns 4)          |
+| `RAND`              | `RAND()`                                                                | Returns a random floating-point value between 0 and 1.        | `SELECT RAND();` (returns a random number)|
+| `MOD`               | `MOD(dividend, divisor)`                                                | Returns the remainder of a division operation.                | `SELECT MOD(10, 3);` (returns 1)        |
+| `EXP`               | `EXP(number)`                                                           | Returns e raised to the power of the specified number.        | `SELECT EXP(1);` (returns 2.718281828)   |
+| `LOG`               | `LOG(number)`                                                           | Returns the natural logarithm of a number (base e).           | `SELECT LOG(2);` (returns 0.693147181)   |
+| `LOG10`             | `LOG10(number)`                                                         | Returns the logarithm of a number with base 10.               | `SELECT LOG10(100);` (returns 2)        |
+| `SIGN`              | `SIGN(number)`                                                          | Returns the sign of a number (-1 for negative, 1 for positive, 0 for zero). | `SELECT SIGN(-10);` (returns -1) |
+| `RADIANS`           | `RADIANS(degrees)`                                                      | Converts degrees to radians.                                  | `SELECT RADIANS(180);` (returns 3.141593)|
+| `DEGREES`           | `DEGREES(radians)`                                                      | Converts radians to degrees.                                  | `SELECT DEGREES(PI());` (returns 180)   |
+| `PI`                | `PI()`                                                                  | Returns the value of pi (π).                                   | `SELECT PI();` (returns 3.141593)       |
+| `GCD`               | `GCD(a, b)`                                                             | Returns the greatest common divisor of two numbers.           | `SELECT GCD(56, 98);` (returns 14)      |
+| `LCM`               | `LCM(a, b)`                                                             | Returns the least common multiple of two numbers.             | `SELECT LCM(4, 5);` (returns 20)        |
+| `BIT_AND`           | `BIT_AND(expr)`                                                         | Returns the bitwise AND of all bits in the expression.        | `SELECT BIT_AND(5), BIT_AND(7);`        |
+| `BIT_OR`            | `BIT_OR(expr)`                                                          | Returns the bitwise OR of all bits in the expression.         | `SELECT BIT_OR(5), BIT_OR(7);`          |
+| `BIT_XOR`           | `BIT_XOR(expr)`                                                         | Returns the bitwise XOR of all bits in the expression.        | `SELECT BIT_XOR(5), BIT_XOR(7);`        |
+| `PI`                | `PI()`                                                                  | Returns the value of π (Pi).                                  | `SELECT PI();` (returns 3.141593)       |
 
-| **Function**  | **Description**                     | **Example**                          |
-|---------------|-------------------------------------|--------------------------------------|
-| `ABS()`       | Returns the absolute value          | `SELECT ABS(-10);`                   |
-| `ROUND()`     | Rounds a number to the nearest value| `SELECT ROUND(salary, 2);`           |
-| `FLOOR()`     | Rounds down to the nearest integer  | `SELECT FLOOR(salary);`              |
-| `CEIL()`      | Rounds up to the nearest integer    | `SELECT CEIL(salary);`               |
-| `POWER()`     | Raises a number to a power          | `SELECT POWER(salary, 2);`           |
+---
+
+### **Explanation of Some Key Functions**
+
+1. **`ABS`**: This function returns the absolute (positive) value of the number, effectively removing any negative sign.
+
+   ```sql
+   SELECT ABS(-10);  -- Output: 10
+   ```
+
+2. **`CEIL`**: The `CEIL` function returns the smallest integer greater than or equal to the given number.
+
+   ```sql
+   SELECT CEIL(4.2);  -- Output: 5
+   ```
+
+3. **`FLOOR`**: The `FLOOR` function returns the largest integer less than or equal to the given number.
+
+   ```sql
+   SELECT FLOOR(4.8);  -- Output: 4
+   ```
+
+4. **`ROUND`**: The `ROUND` function rounds a number to the specified number of decimal places.
+
+   ```sql
+   SELECT ROUND(4.5678, 2);  -- Output: 4.57
+   ```
+
+5. **`POW`/`POWER`**: These two functions are interchangeable. They return the value of the first number raised to the power of the second number.
+
+   ```sql
+   SELECT POW(2, 3);  -- Output: 8
+   SELECT POWER(2, 3);  -- Output: 8
+   ```
+
+6. **`SQRT`**: This function returns the square root of a given number.
+
+   ```sql
+   SELECT SQRT(16);  -- Output: 4
+   ```
+
+7. **`RAND`**: The `RAND` function generates a random floating-point number between 0 and 1.
+
+   ```sql
+   SELECT RAND();  -- Output: Random number between 0 and 1
+   ```
+
+8. **`MOD`**: The `MOD` function returns the remainder after dividing two numbers.
+
+   ```sql
+   SELECT MOD(10, 3);  -- Output: 1
+   ```
+
+9. **`EXP`**: This function returns the value of e (Euler's number) raised to the power of the given number.
+
+   ```sql
+   SELECT EXP(1);  -- Output: 2.718281828
+   ```
+
+10. **`LOG`**: The `LOG` function returns the natural logarithm of the given number.
+
+    ```sql
+    SELECT LOG(2);  -- Output: 0.693147181
+    ```
+
+11. **`PI`**: This function returns the value of π (Pi), which is approximately 3.141593.
+
+    ```sql
+    SELECT PI();  -- Output: 3.141593
+    ```
 
 ---
 
