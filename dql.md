@@ -197,16 +197,110 @@ String functions in MySQL are used to perform operations on string data types li
 ---
 
 ### **4.3 Date and Time Functions**
+Date and time functions in MySQL are used to perform operations on date and time values.
 
-Date and time functions are used to manipulate date/time values.
+| **Function**         | **Syntax**                                                               | **Description**                                                 | **Example**                                   |
+|----------------------|-------------------------------------------------------------------------|---------------------------------------------------------------|-----------------------------------------------|
+| `CURDATE`            | `CURDATE()`                                                             | Returns the current date in 'YYYY-MM-DD' format.               | `SELECT CURDATE();` (returns '2024-11-26')    |
+| `CURRENT_DATE`       | `CURRENT_DATE()`                                                        | Same as `CURDATE()`, returns the current date.                 | `SELECT CURRENT_DATE();` (returns '2024-11-26')|
+| `CURTIME`            | `CURTIME()`                                                             | Returns the current time in 'HH:MM:SS' format.                 | `SELECT CURTIME();` (returns '14:30:15')      |
+| `CURRENT_TIME`       | `CURRENT_TIME()`                                                        | Same as `CURTIME()`, returns the current time.                 | `SELECT CURRENT_TIME();` (returns '14:30:15')  |
+| `NOW`                | `NOW()`                                                                 | Returns the current date and time in 'YYYY-MM-DD HH:MM:SS' format. | `SELECT NOW();` (returns '2024-11-26 14:30:15')|
+| `SYSDATE`            | `SYSDATE()`                                                             | Returns the current date and time (with fractional seconds).   | `SELECT SYSDATE();` (returns '2024-11-26 14:30:15.123')|
+| `DATE`               | `DATE(datetime)`                                                        | Extracts the date part from a datetime or timestamp.           | `SELECT DATE('2024-11-26 14:30:15');` (returns '2024-11-26')|
+| `TIME`               | `TIME(datetime)`                                                        | Extracts the time part from a datetime or timestamp.           | `SELECT TIME('2024-11-26 14:30:15');` (returns '14:30:15')|
+| `YEAR`               | `YEAR(date)`                                                            | Extracts the year part from a date.                            | `SELECT YEAR('2024-11-26');` (returns 2024)    |
+| `MONTH`              | `MONTH(date)`                                                           | Extracts the month part from a date.                           | `SELECT MONTH('2024-11-26');` (returns 11)     |
+| `DAY`                | `DAY(date)`                                                             | Extracts the day part from a date.                             | `SELECT DAY('2024-11-26');` (returns 26)       |
+| `DAYOFWEEK`          | `DAYOFWEEK(date)`                                                       | Returns the weekday index (1=Sunday, 2=Monday, ..., 7=Saturday). | `SELECT DAYOFWEEK('2024-11-26');` (returns 3)  |
+| `DAYOFMONTH`         | `DAYOFMONTH(date)`                                                      | Returns the day of the month (1-31).                           | `SELECT DAYOFMONTH('2024-11-26');` (returns 26) |
+| `DAYOFYEAR`          | `DAYOFYEAR(date)`                                                       | Returns the day of the year (1-366).                           | `SELECT DAYOFYEAR('2024-11-26');` (returns 331) |
+| `WEEK`               | `WEEK(date)`                                                            | Returns the week number of the year.                           | `SELECT WEEK('2024-11-26');` (returns 48)      |
+| `WEEKDAY`            | `WEEKDAY(date)`                                                         | Returns the weekday index (0=Monday, 6=Sunday).                | `SELECT WEEKDAY('2024-11-26');` (returns 1)    |
+| `MONTHNAME`          | `MONTHNAME(date)`                                                       | Returns the full name of the month (e.g., January, February).  | `SELECT MONTHNAME('2024-11-26');` (returns 'November')|
+| `DAYNAME`            | `DAYNAME(date)`                                                         | Returns the full name of the day of the week (e.g., Monday).   | `SELECT DAYNAME('2024-11-26');` (returns 'Tuesday')|
+| `ADDDATE`            | `ADDDATE(date, INTERVAL expr unit)`                                     | Adds a specified time interval to a date.                       | `SELECT ADDDATE('2024-11-26', INTERVAL 5 DAY);` (returns '2024-12-01')|
+| `DATE_ADD`           | `DATE_ADD(date, INTERVAL expr unit)`                                    | Same as `ADDDATE()`, adds a specified time interval to a date.  | `SELECT DATE_ADD('2024-11-26', INTERVAL 5 DAY);` (returns '2024-12-01')|
+| `SUBDATE`            | `SUBDATE(date, INTERVAL expr unit)`                                     | Subtracts a specified time interval from a date.                | `SELECT SUBDATE('2024-11-26', INTERVAL 5 DAY);` (returns '2024-11-21')|
+| `DATE_SUB`           | `DATE_SUB(date, INTERVAL expr unit)`                                    | Same as `SUBDATE()`, subtracts a specified time interval from a date. | `SELECT DATE_SUB('2024-11-26', INTERVAL 5 DAY);` (returns '2024-11-21')|
+| `TIMESTAMPDIFF`      | `TIMESTAMPDIFF(unit, datetime1, datetime2)`                             | Returns the difference between two dates or times in the specified unit (e.g., SECOND, MINUTE, HOUR, DAY). | `SELECT TIMESTAMPDIFF(DAY, '2024-11-21', '2024-11-26');` (returns 5)|
+| `DATEDIFF`           | `DATEDIFF(date1, date2)`                                                | Returns the difference between two dates in days.               | `SELECT DATEDIFF('2024-11-26', '2024-11-21');` (returns 5)|
+| `STR_TO_DATE`        | `STR_TO_DATE(string, format)`                                           | Converts a string to a date based on a specified format.        | `SELECT STR_TO_DATE('2024-11-26', '%Y-%m-%d');` (returns '2024-11-26')|
+| `DATE_FORMAT`        | `DATE_FORMAT(date, format)`                                             | Formats a date into a specified format.                         | `SELECT DATE_FORMAT('2024-11-26', '%Y-%m-%d');` (returns '2024-11-26')|
 
-| **Function**         | **Description**                               | **Example**                                      |
-|----------------------|-----------------------------------------------|------------------------------------------------|
-| `NOW()`              | Returns the current date and time            | `SELECT NOW();`                                |
-| `CURDATE()`          | Returns the current date                     | `SELECT CURDATE();`                            |
-| `YEAR()`             | Extracts the year from a date                | `SELECT YEAR(hire_date) FROM employees;`       |
-| `MONTH()`            | Extracts the month from a date               | `SELECT MONTH(hire_date) FROM employees;`      |
-| `DATEDIFF()`         | Returns the difference between two dates     | `SELECT DATEDIFF(CURDATE(), hire_date);`       |
+---
+
+### **Explanation of Some Key Functions**
+
+1. **`CURDATE` / `CURRENT_DATE`**: Returns the current date without the time part.
+
+   ```sql
+   SELECT CURDATE();  -- Output: '2024-11-26'
+   ```
+
+2. **`CURTIME` / `CURRENT_TIME`**: Returns the current time without the date part.
+
+   ```sql
+   SELECT CURTIME();  -- Output: '14:30:15'
+   ```
+
+3. **`NOW` / `SYSDATE`**: Returns the current date and time.
+
+   ```sql
+   SELECT NOW();  -- Output: '2024-11-26 14:30:15'
+   ```
+
+4. **`DATE`**: Extracts the date part from a `DATETIME` or `TIMESTAMP` value.
+
+   ```sql
+   SELECT DATE('2024-11-26 14:30:15');  -- Output: '2024-11-26'
+   ```
+
+5. **`YEAR`, `MONTH`, `DAY`**: Extracts the year, month, and day parts from a date.
+
+   ```sql
+   SELECT YEAR('2024-11-26');  -- Output: 2024
+   SELECT MONTH('2024-11-26');  -- Output: 11
+   SELECT DAY('2024-11-26');  -- Output: 26
+   ```
+
+6. **`DAYOFWEEK`**: Returns the weekday index, where 1 = Sunday and 7 = Saturday.
+
+   ```sql
+   SELECT DAYOFWEEK('2024-11-26');  -- Output: 3 (Tuesday)
+   ```
+
+7. **`WEEKDAY`**: Returns the weekday index, where 0 = Monday and 6 = Sunday.
+
+   ```sql
+   SELECT WEEKDAY('2024-11-26');  -- Output: 1 (Tuesday)
+   ```
+
+8. **`ADDDATE` / `DATE_ADD`**: Adds a specified time interval to a date.
+
+   ```sql
+   SELECT ADDDATE('2024-11-26', INTERVAL 5 DAY);  -- Output: '2024-12-01'
+   ```
+
+9. **`SUBDATE` / `DATE_SUB`**: Subtracts a specified time interval from a date.
+
+   ```sql
+   SELECT DATE_SUB('2024-11-26', INTERVAL 5 DAY);  -- Output: '2024-11-21'
+   ```
+
+10. **`DATEDIFF`**: Returns the difference between two dates in days.
+
+    ```sql
+
+
+    SELECT DATEDIFF('2024-11-26', '2024-11-21');  -- Output: 5
+    ```
+
+11. **`TIMESTAMPDIFF`**: Returns the difference between two dates in a specified unit (e.g., seconds, minutes, days).
+
+    ```sql
+    SELECT TIMESTAMPDIFF(DAY, '2024-11-21', '2024-11-26');  -- Output: 5
+    ```
 
 ---
 
