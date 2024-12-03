@@ -1,5 +1,3 @@
-Here’s a detailed tutorial on **Database Management Systems (DBMS)** and **Relational Database Management Systems (RDBMS)**, along with practical applications, types, dialects, and their differences with other types of databases, formatted in Markdown for GitHub.
-
 ---
 
 # **MySQL Tutorial: Understanding DBMS, RDBMS, and Practical Applications**
