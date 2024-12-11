@@ -35,6 +35,9 @@ DELIMITER ;
 - **`BEGIN...END`:** Encapsulates the SQL block.
 
 ---
+- For the Tables utilized in the given examples:
+- [Back to Top](#mysql-procedures-tutorial)
+---
 
 ## **3. Declaring Parameters in Procedures**
 
@@ -193,7 +196,6 @@ DROP PROCEDURE IF EXISTS procedure_name;
 ---
 
 ## **8. Example Database DDL and DML**
-
 ### **DDL Statements**
 
 ```sql
@@ -227,7 +229,6 @@ INSERT INTO accounts (user_id, account_balance) VALUES
 
 ---
 
-- [Back to Top](#mysql-procedures-tutorial)
 - [Go to DDL and DML](#8-example-database-ddl-and-dml)
 
 ---
