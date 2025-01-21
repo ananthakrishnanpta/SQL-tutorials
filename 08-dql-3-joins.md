@@ -31,6 +31,45 @@ We’ll use two tables: **employees** and **departments**.
 | 3      | Sales               |
 | 4      | Marketing           |
 
+Here are the SQL commands to create and populate the tables for the given data: 
+
+### Creating the `employees` Table
+```sql
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    department_id INT,
+    salary DECIMAL(10, 2),
+    FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+```
+
+### Creating the `departments` Table
+```sql
+CREATE TABLE departments (
+    id INT PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+```
+
+### Inserting Data into `departments`
+```sql
+INSERT INTO departments (id, department_name) VALUES
+(1, 'HR'),
+(2, 'IT'),
+(3, 'Sales'),
+(4, 'Marketing');
+```
+
+### Inserting Data into `employees`
+```sql
+INSERT INTO employees (id, name, department_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 70000),
+(4, 'Diana', 3, 40000),
+(5, 'Ethan', NULL, 45000);
+``` 
 ---
 
 ## 3. **How Joins Work**
