@@ -2,9 +2,12 @@
 
 This tutorial provides the **DDL (Data Definition Language)** for creating the schema, and the **DML (Data Manipulation Language)** for inserting at least 20 records into each table.
 
+Go to:
+- [Procedures & Functions](10-sampledb.md)
+
 ```sql
 CREATE DATABASE emp_db;
-USE emp_db
+USE emp_db;
 ```
 ---
 
