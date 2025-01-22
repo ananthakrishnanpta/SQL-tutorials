@@ -4,7 +4,7 @@ This tutorial provides the **DDL (Data Definition Language)** for creating the s
 
 ```sql
 CREATE DATABASE emp_db;
-use emp_db
+USE emp_db
 ```
 ---
 
