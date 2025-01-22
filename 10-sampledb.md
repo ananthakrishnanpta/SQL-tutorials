@@ -173,3 +173,107 @@ VALUES
 ```
 
 ---
+
+Here's a breakdown of the database design above, organized for easy understanding of how it supports company strategies and structure:
+
+---
+
+# **Database Design Overview**
+
+This schema provides a foundational database for managing employee information, salaries, and organizational changes. The design ensures **data integrity**, **scalability**, and **traceability** of salary adjustments.
+
+---
+
+## **1. Departments Table**
+
+### **Purpose**
+- Represents the company's organizational structure.
+- Each department has a unique identifier and name, providing clarity for categorizing employees.
+
+### **Key Features**
+- `dept_id` is a primary key, ensuring each department is uniquely identified.
+- `dept_name` stores the department's name.
+
+### **How It Helps**
+- Enables analysis of departmental distribution and performance.
+- Supports queries like "Which department has the most employees?"
+
+---
+
+## **2. Employees Table**
+
+### **Purpose**
+- Manages employee data, associating employees with their respective departments and hire dates.
+
+### **Key Features**
+- `emp_id`: A unique identifier for each employee.
+- `dept_id`: A foreign key linking employees to their departments, maintaining referential integrity.
+- `hire_date`: Tracks when an employee joined, useful for tenure analysis.
+
+### **Relationships**
+- Foreign key constraint links `dept_id` to the `Departments` table. If a department is deleted, its employees are also removed (`ON DELETE CASCADE`).
+
+### **How It Helps**
+- Provides a clear record of employees, their roles, and tenure.
+- Facilitates tracking of hiring trends by department.
+
+---
+
+## **3. Salaries Table**
+
+### **Purpose**
+- Records salary information for employees over time.
+
+### **Key Features**
+- `salary_id`: A unique identifier for each salary record.
+- `emp_id`: Links salary records to employees, ensuring accurate salary history tracking.
+- `salary`: Stores the amount of salary.
+- `salary_date`: Tracks when a specific salary amount was assigned.
+
+### **Relationships**
+- Foreign key links `emp_id` to the `Employees` table. If an employee is removed, their salary records are also deleted.
+
+### **How It Helps**
+- Maintains a historical record of salaries for audit and review.
+- Enables salary trend analysis and budgeting.
+
+---
+
+## **4. AuditLog Table**
+
+### **Purpose**
+- Tracks changes to employee salaries, recording the old and new salary values along with the timestamp of the change.
+
+### **Key Features**
+- `log_id`: A unique identifier for each change record.
+- `emp_id`: Links changes to specific employees.
+- `old_salary` and `new_salary`: Record the salary before and after the change.
+- `change_date`: Captures when the salary change occurred.
+
+### **Relationships**
+- Foreign key links `emp_id` to the `Employees` table.
+
+### **How It Helps**
+- Provides accountability and traceability for salary changes.
+- Facilitates audits and compliance with financial regulations.
+
+---
+
+## **Strategic Advantages**
+
+1. **Departmental Insights**:
+   - The `Departments` table enables organizational analysis and resource allocation planning.
+
+2. **Employee Management**:
+   - The `Employees` table allows for detailed employee records, aiding HR in decision-making and workforce management.
+
+3. **Compensation Analysis**:
+   - The `Salaries` table supports financial planning and trend analysis of employee compensation.
+
+4. **Traceability**:
+   - The `AuditLog` table ensures changes to sensitive data, like salaries, are documented for accountability and compliance.
+
+5. **Referential Integrity**:
+   - Foreign key constraints ensure the data remains consistent and accurate across the schema.
+
+---
