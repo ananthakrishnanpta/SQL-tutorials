@@ -1,0 +1,160 @@
+### Practical Example for Cursors in MySQL
+
+#### Scenario: Generating a Monthly Payment Report for Active Customers
+You have a table of customers and payments. You need to generate a report that calculates the total payments made by each customer in a given month. 
+This involves processing each customer's data one by one  using a **cursor**.
+
+---
+
+### Step 1: Database Setup
+
+#### Create the necessary tables
+
+```sql
+-- DDL Statements: Creating the necessary tables
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    is_active BOOLEAN
+);
+
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    amount DECIMAL(10, 2),
+    payment_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE monthly_report (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    total_amount DECIMAL(10, 2),
+    report_month DATE
+);
+```
+
+#### Insert data into the tables
+
+```sql
+-- DML Statements: Inserting data
+INSERT INTO customers (customer_name, is_active) VALUES 
+('Alice', TRUE), ('Bob', TRUE), ('Charlie', FALSE);
+
+INSERT INTO payments (customer_id, amount, payment_date) VALUES
+(1, 100.00, '2025-01-01'),
+(1, 150.00, '2025-01-15'),
+(2, 200.00, '2025-01-10'),
+(2, 300.00, '2025-01-20'),
+(3, 400.00, '2025-01-05');
+```
+
+---
+
+### Step 2: Cursor Implementation
+
+#### Procedure to generate the report
+
+```sql
+DELIMITER $$
+
+CREATE PROCEDURE GenerateMonthlyReport (IN report_month DATE)
+BEGIN
+    -- Declare variables
+    DECLARE done BOOLEAN DEFAULT FALSE;
+    DECLARE current_customer_id INT;
+    DECLARE total_amount DECIMAL(10, 2);
+
+    -- Declare the cursor
+    DECLARE customer_cursor CURSOR FOR 
+    SELECT customer_id 
+    FROM customers 
+    WHERE is_active = TRUE;
+
+    -- Declare a handler to exit the loop
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Open the cursor
+    OPEN customer_cursor;
+
+    -- Cursor loop
+    read_loop: LOOP
+        FETCH customer_cursor INTO current_customer_id;
+        
+        -- Exit the loop if no more rows
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- Calculate total payments for the current customer in the given month
+        SELECT SUM(amount) 
+        INTO total_amount 
+        FROM payments 
+        WHERE customer_id = current_customer_id 
+          AND MONTH(payment_date) = MONTH(report_month) 
+          AND YEAR(payment_date) = YEAR(report_month);
+
+        -- Insert into the monthly report
+        INSERT INTO monthly_report (customer_id, total_amount, report_month)
+        VALUES (current_customer_id, IFNULL(total_amount, 0), report_month);
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE customer_cursor;
+END$$
+
+DELIMITER ;
+```
+
+---
+
+### Step 3: Execute the Procedure
+
+```sql
+CALL GenerateMonthlyReport('2025-01-01');
+```
+
+---
+
+### Explanation of the Code
+
+1. **Tables Creation**: 
+   - `customers` holds customer details.
+   - `payments` records transactions.
+   - `monthly_report` stores the generated report.
+
+2. **Cursor Declaration**:
+   - `DECLARE customer_cursor CURSOR FOR`: Defines the cursor query to fetch active customers.
+   - `DECLARE CONTINUE HANDLER FOR NOT FOUND`: Defines a handler to exit the loop when there are no more rows.
+
+3. **Cursor Operations**:
+   - `OPEN customer_cursor`: Opens the cursor to begin processing.
+   - `FETCH customer_cursor INTO current_customer_id`: Retrieves the next row's `customer_id` into the variable.
+   - `CLOSE customer_cursor`: Closes the cursor after processing.
+
+4. **Loop**:
+   - The `LOOP` iterates through each active customer.
+   - `IF done THEN LEAVE read_loop;`: Exits the loop when no rows are left.
+   - `SELECT SUM(amount) INTO total_amount`: Calculates the total payments for the customer in the specified month.
+   - `INSERT INTO monthly_report`: Records the calculated totals into the `monthly_report` table.
+
+5. **Edge Cases**:
+   - `IFNULL(total_amount, 0)`: Ensures `NULL` values (no payments) are replaced with 0.
+
+6. **Execution**:
+   - `CALL GenerateMonthlyReport('2025-01-01');`: Generates the report for January 2025.
+
+---
+
+### Result
+
+```sql
+SELECT * FROM monthly_report;
+```
+
+Output:
+
+| report_id | customer_id | total_amount | report_month |
+|-----------|-------------|--------------|--------------|
+| 1         | 1           | 250.00       | 2025-01-01   |
+| 2         | 2           | 500.00       | 2025-01-01   |
