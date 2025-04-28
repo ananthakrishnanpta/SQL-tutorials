@@ -26,14 +26,18 @@ MySQL supports several categories of data types: numeric, string, date and time,
 
 ### **2.2. String Data Types**
 
-| Data Type       | Description                                                      | Storage Size | Max Length      | Application Example                      |
-|-----------------|------------------------------------------------------------------|--------------|-----------------|-------------------------------------------|
-| `CHAR`          | Fixed-length string.                                              | 1 byte/char  | 0 to 255 chars   | Fixed length codes, Country codes         |
-| `VARCHAR`       | Variable-length string.                                          | 1 byte + length | 0 to 65,535 chars | Usernames, Email addresses                |
-| `TEXT`          | Long text data, no specific length limit (depending on the DB version). | 2 bytes + length | 0 to 65,535 chars | Product descriptions, Articles            |
-| `BLOB`          | Binary Large Object (used to store binary data).                  | Varies       | 0 to 65,535 bytes | Storing images, audio, video              |
-| `ENUM`          | An enumerated type (fixed list of possible values).               | 1 byte       | 1 to 65,535 options | Gender, Status codes                      |
-| `SET`           | A set of values (multiple values from a predefined list).         | Varies       | Up to 64 members | Skills, Tags                             |
+| Data Type       | Description                                                      | Storage Size                     | Max Length            | Application Example                      |
+|-----------------|------------------------------------------------------------------|-----------------------------------|-----------------------|-------------------------------------------|
+| `CHAR`          | Fixed-length string. If the string is shorter than the specified length, it is padded with spaces. | 1 byte per character              | 0 to 255 characters   | Fixed-length codes, Country codes         |
+| `VARCHAR`       | Variable-length string. Can store strings of varying lengths, and space is only allocated based on the string length. | 1 byte + string length (max 65,535 bytes) | 0 to 65,535 characters | Usernames, Email addresses                |
+| `TINYTEXT`      | A very small text field, smaller than `TEXT`, ideal for storing short strings. | 1 byte + string length (up to 255 characters) | 0 to 255 characters   | Short descriptions, small notes           |
+| `TEXT`          | Long text data, with no specific length limit (depending on the DB version). Larger than `VARCHAR`. | 2 bytes + string length (up to 65,535 bytes) | 0 to 65,535 characters | Product descriptions, Articles            |
+| `MEDIUMTEXT`    | For medium-length text data, larger than `TEXT` but smaller than `LONGTEXT`. | 3 bytes + string length (up to 16 MB) | 0 to 16,777,215 characters | Large articles, comments                  |
+| `LONGTEXT`      | For very large text data, typically for documents or very large articles. | 4 bytes + string length (up to 4 GB) | 0 to 4,294,967,295 characters | Blogs, large documents, scientific papers |
+| `BLOB`          | Binary Large Object. Used to store binary data (images, audio, video, etc.). | 2 bytes + binary data length (up to 65,535 bytes) | 0 to 65,535 bytes | Storing images, audio, video              |
+| `ENUM`          | A fixed set of possible values. The data stored is one of the predefined options in the list. | 1 byte (for up to 255 values) or 2 bytes (for more) | 1 to 65,535 options   | Gender (e.g., 'Male', 'Female'), Status codes (e.g., 'Active', 'Inactive') |
+| `SET`           | A set of zero or more values from a predefined list of values. A record can have multiple values selected from the list. | Varies (1 byte for up to 8 members, 2 bytes for up to 16, and so on) | Up to 64 members      | Skills, Tags                             |
+
 
 ### **2.3. Date and Time Data Types**
 
