@@ -31,7 +31,15 @@ We’ll use two tables: **employees** and **departments**.
 | 3      | Sales               |
 | 4      | Marketing           |
 
-Here are the SQL commands to create and populate the tables for the given data: 
+Here are the SQL commands to create and populate the tables for the given data:
+
+### Creating the `departments` Table
+```sql
+CREATE TABLE departments (
+    id INT PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+```
 
 ### Creating the `employees` Table
 ```sql
@@ -44,13 +52,6 @@ CREATE TABLE employees (
 );
 ```
 
-### Creating the `departments` Table
-```sql
-CREATE TABLE departments (
-    id INT PRIMARY KEY,
-    department_name VARCHAR(50)
-);
-```
 
 ### Inserting Data into `departments`
 ```sql
