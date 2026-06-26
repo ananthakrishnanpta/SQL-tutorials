@@ -1,3 +1,6 @@
+Copy paste and Run in your MySQL Workbench to create a sample DB for a job portal. 
+This DB is good for practicing Joins, subqueries, group by operations, etc
+
 ```sql
 DROP DATABASE IF EXISTS linkedin_realistic;
 CREATE DATABASE linkedin_realistic;
